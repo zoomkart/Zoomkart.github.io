@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Zoomkart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #ff6584;
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --white: #fff;
+            --black: #000;
+            --gray: #6c757d;
+            --light-gray: #f1f1f1;
+            --glass-bg: rgba(255, 255, 255, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 0;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            animation: pulse 1s infinite;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cart-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1.2rem;
+            color: var(--dark-color);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px 0;
+        }
+
+        /* Checkout Form */
+        .checkout-form {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .location-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--light-gray);
+            color: var(--dark-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .location-btn:hover {
+            background: #e2e2e2;
+        }
+
+        .location-btn i {
+            color: var(--primary-color);
+        }
+
+        /* Payment Methods */
+        .payment-methods {
+            margin: 30px 0;
+        }
+
+        .payment-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .payment-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(108, 99, 255, 0.05);
+        }
+
+        .payment-radio {
+            margin-right: 15px;
+            accent-color: var(--primary-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .payment-icon {
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .payment-details {
+            flex: 1;
+        }
+
+        .payment-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .payment-desc {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .submit-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
+        }
+
+        /* Error Message */
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: var(--white);
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            opacity: 0.8;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .developer-credit {
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .developer-credit a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* Floating Buttons */
+        .floating-btns {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        .whatsapp-btn, .instagram-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .whatsapp-btn {
+            background: #25D366;
+        }
+
+        .instagram-btn {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+
+        .whatsapp-btn:hover, .instagram-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .page-title {
+                margin: 10px 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .checkout-form {
+                padding: 20px;
+            }
+
+            .floating-btns {
+                right: 15px;
+                bottom: 15px;
+            }
+
+            .whatsapp-btn, .instagram-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="index.html" class="logo">Zoomkart</a>
+            <h1 class="page-title">Checkout</h1>
+            <a href="#" class="cart-btn">
+                <i class="fas fa-shopping-cart"></i>
+                <span id="cartCount">0</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <form id="checkoutForm" class="checkout-form">
+                <div class="form-group">
+                    <label for="fullName" class="form-label">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" required>
+                    <div id="nameError" class="error-message">Please enter your full name</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile" class="form-label">Mobile Number</label>
+                    <input type="tel" id="mobile" class="form-control" required>
+                    <div id="mobileError" class="error-message">Please enter a valid 10-digit mobile number</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address" class="form-label">Delivery Address</label>
+                    <textarea id="address" class="form-control" required></textarea>
+                    <button type="button" id="locationBtn" class="location-btn">
+                        <i class="fas fa-map-marker-alt"></i> Use My Current Location
+                    </button>
+                    <input type="hidden" id="locationCoords">
+                    <div id="addressError" class="error-message">Please enter your delivery address</div>
+                </div>
+
+                <div class="payment-methods">
+                    <h3 class="payment-title">Payment Method</h3>
+                    
+                    <label class="payment-option selected">
+                        <input type="radio" name="payment" value="cod" class="payment-radio" checked>
+                        <i class="fas fa-money-bill-wave payment-icon"></i>
+                        <div class="payment-details">
+                            <div class="payment-name">Cash on Delivery (COD)</div>
+                            <div class="payment-desc">Pay when you receive your order</div>
+                        </div>
+                    </label>
+                    
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="online" class="payment-radio">
+                        <i class="fas fa-credit-card payment-icon"></i>
+                        <div class="payment-details">
+                            <div class="payment-name">Online Payment</div>
+                            <div class="payment-desc">Pay securely with UPI, cards or wallets</div>
+                        </div>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Place Order</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Zoomkart</h3>
+                    <p>Delivering happiness to your doorstep in just 25 minutes across Ateli Mandi.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="menu.html">Menu</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                        <li><i class="fas fa-envelope"></i> hello@zoomkart.com</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Ateli Mandi, Haryana</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2023 Zoomkart. All Rights Reserved. Made with ❤️ in Ateli Mandi</p>
+                <p class="developer-credit">A Website By <a href="https://www.raodevelopers.xyz" target="_blank">Rao Developers</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Buttons -->
+    <div class="floating-btns">
+        <a href="https://wa.me/919876543210" class="whatsapp-btn">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://instagram.com/zoomkart" class="instagram-btn">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize cart count
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            document.getElementById('cartCount').textContent = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+
+            // Payment option selection
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    const radio = this.querySelector('.payment-radio');
+                    radio.checked = true;
+                });
+            });
+
+            // Get current location
+            const locationBtn = document.getElementById('locationBtn');
+            const locationCoords = document.getElementById('locationCoords');
+            
+            locationBtn.addEventListener('click', function() {
+                if (navigator.geolocation) {
+                    locationBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
+                    
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            const lat = position.coords.latitude;
+                            const lng = position.coords.longitude;
+                            locationCoords.value = `${lat},${lng}`;
+                            
+                            // Add location to address
+                            const addressField = document.getElementById('address');
+                            if (addressField.value) {
+                                addressField.value += `\n\nLocation Coordinates: ${lat}, ${lng}`;
+                            } else {
+                                addressField.value = `Location Coordinates: ${lat}, ${lng}`;
+                            }
+                            
+                            locationBtn.innerHTML = '<i class="fas fa-check-circle"></i> Location Added';
+                            setTimeout(() => {
+                                locationBtn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Use My Current Location';
+                            }, 2000);
+                        },
+                        function(error) {
+                            alert('Could not get your location. Please enter your address manually.');
+                            console.error('Geolocation error:', error);
+                            locationBtn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Use My Current Location';
+                        }
+                    );
+                } else {
+                    alert('Geolocation is not supported by your browser. Please enter your address manually.');
+                }
+            });
+
+            // Form validation
+            const form = document.getElementById('checkoutForm');
+            const nameError = document.getElementById('nameError');
+            const mobileError = document.getElementById('mobileError');
+            const addressError = document.getElementById('addressError');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset errors
+                nameError.style.display = 'none';
+                mobileError.style.display = 'none';
+                addressError.style.display = 'none';
+                
+                // Validate fields
+                const fullName = document.getElementById('fullName').value.trim();
+                const mobile = document.getElementById('mobile').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+                let isValid = true;
+                
+                if (!fullName) {
+                    nameError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (!mobile || !/^\d{10}$/.test(mobile)) {
+                    mobileError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (!address) {
+                    addressError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                if (isValid) {
+                    // Get cart items from localStorage
+                    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    
+                    // Calculate total amount
+                    let subtotal = 0;
+                    cart.forEach(item => {
+                        subtotal += item.price * (item.quantity || 1);
+                    });
+                    const totalAmount = subtotal + 30; // ₹30 delivery fee
+                    
+                    // Prepare complete order data
+                    const orderData = {
+                        name: fullName,
+                        phone: mobile,
+                        address: address,
+                        location: locationCoords.value || 'Not provided',
+                        payment: paymentMethod === 'cod' ? 'COD' : 'Online Payment',
+                        items: cart,
+                        subtotal: subtotal,
+                        deliveryFee: 30,
+                        total: totalAmount
+                    };
+                    
+                    // Store complete order data in localStorage
+                    localStorage.setItem('currentOrder', JSON.stringify(orderData));
+                    
+                    // Send to Telegram bot
+                    sendToTelegram(orderData);
+                    
+                    // Redirect based on payment method
+                    if (paymentMethod === 'cod') {
+                        window.location.href = 'done.html';
+                    } else {
+                        window.location.href = 'pay.html';
+                    }
+                }
+            });
+            
+            // Send order to Telegram
+            function sendToTelegram(orderData) {
+                const botToken = '7570580492:AAEhq5Oz1mfD7SMIalPFoz8ccOwJGbwigHU';
+                const chatId = '5165964724';
+                const text = `New Zoomkart Order\n\n` +
+                             `Name: ${orderData.name}\n` +
+                             `Phone: ${orderData.phone}\n` +
+                             `Address: ${orderData.address}\n` +
+                             `Location: ${orderData.location}\n` +
+                             `Payment: ${orderData.payment}\n` +
+                             `Items: ${orderData.items.map(i => `${i.name} (${i.quantity || 1})`).join(', ')}\n` +
+                             `Total: ₹${orderData.total}`;
+                
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+                
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: text
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Message sent to Telegram:', data);
+                })
+                .catch(error => {
+                    console.error('Error sending to Telegram:', error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

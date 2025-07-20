@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order | Zoomkart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --primary-light: #e6e4ff;
+            --danger-color: #e74c3c;
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --white: #fff;
+            --gray: #6c757d;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header Section */
+        .track-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .track-header h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .track-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        /* Tracking Card */
+        .track-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-bottom: 30px;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .track-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .location-img {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            margin: 0 auto 25px;
+            display: block;
+        }
+
+        .status-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-text.pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Timer Section */
+        .timer-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .timer-heading {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .timer {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: var(--primary-color);
+            background: var(--primary-light);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background-color: #fadbd8;
+            border-left: 4px solid var(--danger-color);
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+        }
+
+        .disclaimer p {
+            display: flex;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        /* Call Button */
+        .call-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+            margin-top: 10px;
+            font-size: 1.1rem;
+            width: 100%;
+            text-align: center;
+        }
+
+        .call-btn:hover {
+            background-color: #5a52e0;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(108, 99, 255, 0.6);
+        }
+
+        .call-btn i {
+            margin-right: 10px;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes moveTruck {
+            0% { transform: translateX(-20px); }
+            50% { transform: translateX(20px); }
+            100% { transform: translateX(-20px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 576px) {
+            .track-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .track-header p {
+                font-size: 1rem;
+            }
+            
+            .track-card {
+                padding: 25px 20px;
+            }
+            
+            .status-text {
+                font-size: 1.1rem;
+                min-height: 50px;
+            }
+            
+            .timer {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="track-header">
+            <h1>📍 Track Your Order</h1>
+            <p>Live AI-based Delivery Status Below</p>
+        </div>
+
+        <!-- Tracking Card -->
+        <div class="track-card">
+            <div class="track-icon">🗺️📍</div>
+            <img src="https://i.ibb.co/BV5YQ79x/Screenshot-20250720-imresizer.jpg" alt="Delivery Location" class="location-img">
+            <div class="status-text pulse">Your order is dispatched. Please wait...</div>
+            
+            <!-- Timer Section -->
+            <div class="timer-section">
+                <div class="timer-heading">
+                    <span>⏳</span>
+                    <span>Estimated Arrival in:</span>
+                </div>
+                <div class="timer" id="countdown">8:00</div>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <p><span>⚠️</span> Above data is AI Based and may be inaccurate. If your order is delayed, please call us immediately.</p>
+        </div>
+
+        <!-- Call Button -->
+        <a href="tel:9499473347" class="call-btn">
+            <i class="fas fa-phone"></i> Call Now
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countdownElement = document.getElementById('countdown');
+            const statusText = document.querySelector('.status-text');
+            let minutes = 8;
+            let seconds = 0;
+            let countdownActive = true;
+
+            // Start countdown timer
+            const countdown = setInterval(function() {
+                if (seconds === 0) {
+                    if (minutes === 0) {
+                        clearInterval(countdown);
+                        countdownActive = false;
+                        
+                        // Update status when timer completes
+                        statusText.classList.remove('pulse');
+                        statusText.innerHTML = '✅ Order is on the way! Please wait... <span class="truck">🚚</span>';
+                        
+                        // Add truck animation
+                        const truck = document.querySelector('.truck');
+                        truck.style.display = 'inline-block';
+                        truck.style.animation = 'moveTruck 2s infinite';
+                        
+                        return;
+                    }
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    seconds--;
+                }
+                
+                // Update timer display
+                const displaySeconds = seconds < 10 ? `0${seconds}` : seconds;
+                countdownElement.textContent = `${minutes}:${displaySeconds}`;
+            }, 1000);
+
+            // Add vibration effect when timer completes (mobile devices)
+            if (window.navigator.vibrate && countdownActive) {
+                setTimeout(function() {
+                    window.navigator.vibrate([200, 100, 200]);
+                }, (minutes * 60 + seconds) * 1000);
+            }
+        });
+    </script>
+</body>
+</html>

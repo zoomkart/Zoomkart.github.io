@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Successful - Zoomkart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+     :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #ff6584;
+            --success-color: #28a745;
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --white: #fff;
+            --gray: #6c757d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Success Animation */
+        .success-animation {
+            margin: 0 auto 30px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #e8f5e9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .success-animation::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--success-color);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .checkmark {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 5;
+            stroke: var(--white);
+            stroke-miterlimit: 10;
+            margin: 10% auto;
+            box-shadow: 0 0 0 rgba(40, 167, 69, 0.4);
+            animation: checkmark 0.5s ease-in-out;
+        }
+
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 5;
+            stroke-miterlimit: 10;
+            stroke: var(--success-color);
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
+        }
+
+        /* Success Message */
+        .success-message {
+            margin-bottom: 30px;
+        }
+
+        .success-message h1 {
+            color: var(--success-color);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .success-message p {
+            font-size: 1.1rem;
+            color: var(--gray);
+        }
+
+        /* Receipt */
+        .receipt {
+            background: var(--light-color);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .receipt-header h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .receipt-details {
+            margin-bottom: 20px;
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+        }
+
+        .receipt-row:last-child {
+            border-bottom: none;
+        }
+
+        .receipt-label {
+            font-weight: 500;
+            color: var(--gray);
+        }
+
+        .receipt-value {
+            font-weight: 600;
+        }
+
+        .receipt-items {
+            margin-top: 20px;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .receipt-total {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .cancel-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #dc3545;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+            70% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(0.95);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes checkmark {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .success-message h1 {
+                font-size: 1.5rem;
+            }
+
+            .receipt-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .success-animation {
+                width: 80px;
+                height: 80px;
+            }
+
+            .checkmark {
+                width: 40px;
+                height: 40px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-animation">
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+    <div class="success-message">
+      <h1>Payment Successful!</h1>
+      <p id="userGreeting">Thank you for using our services at Zoomkart!</p>
+    </div>
+    <div class="receipt" id="receipt">
+      <div class="receipt-header">
+        <h2>Zoomkart</h2>
+        <p>Order Receipt</p>
+      </div>
+      <div class="receipt-details">
+        <div class="receipt-row"><span class="receipt-label">Name:</span><span class="receipt-value" id="receiptName">-</span></div>
+        <div class="receipt-row"><span class="receipt-label">Mobile:</span><span class="receipt-value" id="receiptMobile">-</span></div>
+        <div class="receipt-row"><span class="receipt-label">Address:</span><span class="receipt-value" id="receiptAddress">-</span></div>
+        <div class="receipt-row"><span class="receipt-label">Payment Method:</span><span class="receipt-value" id="receiptPayment">-</span></div>
+        <div class="receipt-row"><span class="receipt-label">Date:</span><span class="receipt-value" id="receiptDate">-</span></div>
+      </div>
+      <div class="receipt-items"><h3>Items Ordered:</h3><div id="receiptItems"></div></div>
+      <div class="receipt-total"><span>Total Amount:</span><span id="receiptTotal">₹0</span></div>
+      <div class="receipt-footer"><p>Zoomkart – A Delivery Company | Powered by Rao Developers | Contact: 9499473347</p></div>
+    </div>
+    <a href="track.html" class="btn">Track Order</a>
+    <a href="cancel.html" class="cancel-link">❌ If you want to cancel the order, Click here</a>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const orderData = JSON.parse(localStorage.getItem('currentOrder')) || {};
+
+      if (orderData.name) {
+        document.getElementById('userGreeting').textContent = `Payment Done ${orderData.name} 😊 Thank you for using our services at Zoomkart!`;
+        document.getElementById('receiptName').textContent = orderData.name;
+      }
+
+      if (orderData.phone) {
+        document.getElementById('receiptMobile').textContent = orderData.phone;
+      }
+
+      if (orderData.address) {
+        document.getElementById('receiptAddress').textContent = orderData.address;
+      }
+
+      // Fix: Ensure payment method is properly displayed
+      if (orderData.paymentMethod) {
+        document.getElementById('receiptPayment').textContent = orderData.paymentMethod;
+      } else if (orderData.payment) {
+        document.getElementById('receiptPayment').textContent = orderData.payment;
+      } else {
+        document.getElementById('receiptPayment').textContent = '-';
+      }
+
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
+      document.getElementById('receiptDate').textContent = now.toLocaleDateString('en-IN', options);
+
+      const receiptItemsContainer = document.getElementById('receiptItems');
+      if (orderData.items && orderData.items.length > 0) {
+        orderData.items.forEach(item => {
+          const itemElement = document.createElement('div');
+          itemElement.className = 'receipt-item';
+          itemElement.innerHTML = `<span>${item.name} × ${item.quantity || 1}</span><span>₹${item.price * (item.quantity || 1)}</span>`;
+          receiptItemsContainer.appendChild(itemElement);
+        });
+
+        const subtotalElement = document.createElement('div');
+        subtotalElement.className = 'receipt-item';
+        subtotalElement.innerHTML = `<span>Subtotal</span><span>₹${orderData.subtotal || 0}</span>`;
+        receiptItemsContainer.appendChild(subtotalElement);
+
+        const deliveryElement = document.createElement('div');
+        deliveryElement.className = 'receipt-item';
+        deliveryElement.innerHTML = `<span>Delivery Fee</span><span>₹${orderData.deliveryFee || 30}</span>`;
+        receiptItemsContainer.appendChild(deliveryElement);
+      } else {
+        const noItemsElement = document.createElement('div');
+        noItemsElement.className = 'receipt-item';
+        noItemsElement.textContent = 'No items found';
+        receiptItemsContainer.appendChild(noItemsElement);
+      }
+
+      document.getElementById('receiptTotal').textContent = `₹${orderData.total || 0}`;
+    });
+  </script>
+</body>
+</html>

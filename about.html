@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Zoomkart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --primary-light: #e6e4ff;
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --white: #fff;
+            --gray: #6c757d;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.7;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Section */
+        .about-header {
+            text-align: center;
+            padding: 80px 0 40px;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.1) 0%, rgba(255, 101, 132, 0.1) 100%);
+        }
+
+        .about-header h1 {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .about-header p {
+            font-size: 1.3rem;
+            color: var(--gray);
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+        }
+
+        /* Content Section */
+        .about-content {
+            padding: 60px 0;
+        }
+
+        .about-section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .about-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .about-section p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        /* Team Card */
+        .team-card {
+            text-align: center;
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .team-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid var(--primary-light);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .team-card p.role {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .team-contact {
+            margin: 20px 0;
+        }
+
+        .team-contact a {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .team-contact a:hover {
+            transform: translateY(-3px);
+            color: var(--dark-color);
+        }
+
+        /* Footer */
+        .about-footer {
+            text-align: center;
+            padding: 30px 0;
+            background: var(--dark-color);
+            color: var(--white);
+        }
+
+        .about-footer p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            color: var(--white);
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            transition: var(--transition);
+            z-index: 100;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-header p {
+                font-size: 1.1rem;
+            }
+            
+            .about-section {
+                padding: 20px;
+            }
+            
+            .about-section h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .about-header {
+                padding: 60px 0 30px;
+            }
+            
+            .about-header h1 {
+                font-size: 2rem;
+            }
+            
+            .team-card {
+                padding: 20px;
+            }
+            
+            .team-photo {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="about-header">
+        <div class="container">
+            <h1>About Zoomkart</h1>
+            <p>Your Favourite Online Shopping Experience 💫</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="about-content">
+        <div class="container">
+            <!-- Company Description -->
+            <section class="about-section" id="what-is">
+                <h2><i class="fas fa-shopping-bag"></i> What is Zoomkart?</h2>
+                <p>Zoomkart is an all-in-one online shopping platform built for fast, safe, and reliable ordering of daily needs, gadgets, accessories, and much more! 🛍️</p>
+                <p>We started with a simple mission: to make online shopping as quick and effortless as possible for everyone in Ateli Mandi and beyond.</p>
+            </section>
+
+            <section class="about-section" id="why-love">
+                <h2><i class="fas fa-heart"></i> Why People Love Us</h2>
+                <p>From lightning-fast delivery 🚀 to secure payments 🔒 and user-friendly interface 📱 — we offer a premium experience without premium prices!</p>
+                <p>Our customers enjoy a seamless shopping journey from browsing to checkout, with real-time order tracking and dedicated customer support.</p>
+            </section>
+
+            <section class="about-section" id="vision">
+                <h2><i class="fas fa-bullseye"></i> Our Vision</h2>
+                <p>To become India's #1 trusted shopping brand, where quality meets speed and every user leaves with a smile 😊</p>
+                <p>We're committed to continuous innovation, expanding our product range, and delivering exceptional value to our customers every day.</p>
+            </section>
+
+            <!-- Team Card -->
+            <div class="team-card">
+                <img src="https://via.placeholder.com/150" alt="Rao Jatin" class="team-photo">
+                <h3>Rao Jatin</h3>
+                <p class="role">Founder & Developer</p>
+                <p>The creative mind and technical force behind Zoomkart's success story.</p>
+                
+                <div class="team-contact">
+                    <a href="tel:9499473347" title="Call"><i class="fas fa-phone"></i></a>
+                    <a href="https://instagram.com/noturjatin" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://t.me/noturjatin" target="_blank" title="Telegram"><i class="fab fa-telegram"></i></a>
+                </div>
+            </div>
+
+            <section class="about-section" id="creator">
+                <h2><i class="fas fa-code"></i> Creator Credit</h2>
+                <p>Zoomkart is proudly developed and powered by <strong>Rao Developers</strong> 👨‍💻 with love and dedication ❤️</p>
+                <p>Our team works tirelessly to ensure the platform remains cutting-edge, secure, and user-friendly for all our valued customers.</p>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="about-footer">
+        <div class="container">
+            <p>Zoomkart – A delivery company trusted by thousands. Powered by Rao Developers.</p>
+            <div class="social-links">
+                <a href="https://instagram.com/zoomkart" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://t.me/zoomkart" target="_blank"><i class="fab fa-telegram"></i></a>
+                <a href="https://wa.me/9499473347" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/9499473347" class="whatsapp-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate sections on scroll
+            const aboutSections = document.querySelectorAll('.about-section');
+            
+            function checkVisibility() {
+                aboutSections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (sectionTop < windowHeight - 100) {
+                        section.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Initial check
+            checkVisibility();
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkVisibility);
+            
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

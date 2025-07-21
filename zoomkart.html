@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rao Developers - Zoomkart Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #6a11cb;
+            --secondary-color: #2575fc;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffffff 0%, #f3e5ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .required::after {
+            content: ' *';
+            color: red;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+            outline: none;
+        }
+        
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .add-owner-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 10px;
+            vertical-align: middle;
+            transition: all 0.3s ease;
+        }
+        
+        .add-owner-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+        
+        .owner-group {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .remove-owner-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(106, 17, 203, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .success-message h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            font-size: 18px;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Select2 customization */
+        .select2-container--default .select2-selection--multiple {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            min-height: 45px;
+            padding: 5px;
+        }
+        
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.1);
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 2px 8px;
+        }
+        
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white;
+            margin-right: 5px;
+        }
+        
+        .select2-results__option--highlighted {
+            background-color: var(--primary-color) !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔷 Rao Developers</h1>
+            <p>Zoomkart Information Form</p>
+        </div>
+        
+        <form id="zoomkartForm">
+            <!-- WhatsApp Number -->
+            <div class="form-group">
+                <label for="whatsappNumber" class="required">WhatsApp Number</label>
+                <input type="text" id="whatsappNumber" placeholder="Enter 10-digit WhatsApp number" maxlength="10">
+                <div class="error" id="whatsappNumberError">Please enter a valid 10-digit Indian mobile number</div>
+            </div>
+            
+            <!-- Delivery Time -->
+            <div class="form-group">
+                <label for="deliveryTime">Delivery Time (in minutes)</label>
+                <input type="number" id="deliveryTime" min="1" max="100" value="25">
+                <div class="error" id="deliveryTimeError">Delivery time must be between 1-100 minutes</div>
+            </div>
+            
+            <!-- All Time Calling Number -->
+            <div class="form-group">
+                <label for="callingNumber" class="required">All Time Calling Number</label>
+                <input type="text" id="callingNumber" placeholder="Enter 10-digit calling number" maxlength="10">
+                <div class="error" id="callingNumberError">Please enter a valid 10-digit Indian mobile number</div>
+            </div>
+            
+            <!-- Facebook Handle -->
+            <div class="form-group">
+                <label for="facebookHandle">Facebook Handle (URL)</label>
+                <input type="url" id="facebookHandle" placeholder="https://facebook.com/username">
+                <div class="error" id="facebookHandleError">Please enter a valid Facebook URL</div>
+            </div>
+            
+            <!-- Instagram Username -->
+            <div class="form-group">
+                <label for="instagramUsername" class="required">Instagram Username</label>
+                <input type="text" id="instagramUsername" placeholder="Enter Instagram username without @">
+                <div class="error" id="instagramUsernameError">Please enter your Instagram username</div>
+            </div>
+            
+            <!-- Twitter Handle -->
+            <div class="form-group">
+                <label for="twitterHandle">Twitter Handle</label>
+                <input type="text" id="twitterHandle" placeholder="Enter Twitter handle without @">
+                <div class="error" id="twitterHandleError">Please enter a valid Twitter handle</div>
+            </div>
+            
+            <!-- Zoomkart Office Location -->
+            <div class="form-group">
+                <label for="officeLocation" class="required">Zoomkart Office Location</label>
+                <textarea id="officeLocation" rows="3" placeholder="Enter full address with pincode"></textarea>
+                <div class="error" id="officeLocationError">Please enter your complete office address with pincode</div>
+            </div>
+            
+            <!-- Support Mobile Number -->
+            <div class="form-group">
+                <label for="supportNumber" class="required">Support Mobile Number</label>
+                <input type="text" id="supportNumber" placeholder="Enter 10-digit support number" maxlength="10">
+                <div class="error" id="supportNumberError">Please enter a valid 10-digit Indian mobile number</div>
+            </div>
+            
+            <!-- Email ID -->
+            <div class="form-group">
+                <label for="email">Email ID</label>
+                <input type="email" id="email" placeholder="Enter email address">
+                <div class="error" id="emailError">Please enter a valid email address</div>
+            </div>
+            
+            <!-- Owner Information Section -->
+            <div id="ownersSection">
+                <div class="owner-group">
+                    <!-- Zoomkart Owner Name -->
+                    <div class="form-group">
+                        <label for="ownerName1" class="required">Zoomkart Owner Name 
+                            <button type="button" class="add-owner-btn" id="addOwnerBtn">+</button>
+                        </label>
+                        <input type="text" id="ownerName1" placeholder="Enter owner's full name">
+                        <div class="error" id="ownerName1Error">Please enter owner's name</div>
+                    </div>
+                    
+                    <!-- Owner Mobile Number -->
+                    <div class="form-group">
+                        <label for="ownerMobile1" class="required">Owner Mobile Number</label>
+                        <input type="text" id="ownerMobile1" placeholder="Enter 10-digit mobile number" maxlength="10">
+                        <div class="error" id="ownerMobile1Error">Please enter a valid 10-digit Indian mobile number</div>
+                    </div>
+                    
+                    <!-- Owner Instagram Handle -->
+                    <div class="form-group">
+                        <label for="ownerInstagram1" class="required">Owner Instagram Handle</label>
+                        <input type="text" id="ownerInstagram1" placeholder="Enter Instagram username without @">
+                        <div class="error" id="ownerInstagram1Error">Please enter owner's Instagram username</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Zoomkart Menu -->
+            <div class="form-group">
+                <label for="zoomkartMenu" class="required">Select Menu for Zoomkart</label>
+                <select id="zoomkartMenu" multiple="multiple">
+                    <optgroup label="🥦 Veg Dishes">
+                        <option value="Paneer Butter Masala">Paneer Butter Masala</option>
+                        <option value="Palak Paneer">Palak Paneer</option>
+                        <option value="Kadai Paneer">Kadai Paneer</option>
+                        <option value="Shahi Paneer">Shahi Paneer</option>
+                        <option value="Chole Bhature">Chole Bhature</option>
+                        <option value="Rajma Chawal">Rajma Chawal</option>
+                        <option value="Aloo Paratha">Aloo Paratha</option>
+                        <option value="Matar Paneer">Matar Paneer</option>
+                        <option value="Mix Veg">Mix Veg</option>
+                        <option value="Baingan Bharta">Baingan Bharta</option>
+                        <option value="Veg Pulao">Veg Pulao</option>
+                        <option value="Veg Biryani">Veg Biryani</option>
+                        <option value="Dal Makhani">Dal Makhani</option>
+                        <option value="Tandoori Roti">Tandoori Roti</option>
+                        <option value="Malai Kofta">Malai Kofta</option>
+                        <option value="Bhindi Masala">Bhindi Masala</option>
+                        <option value="Tandoori Paneer Tikka">Tandoori Paneer Tikka</option>
+                        <option value="Stuffed Capsicum">Stuffed Capsicum</option>
+                        <option value="Veg Handi">Veg Handi</option>
+                        <option value="Soya Chaap">Soya Chaap</option>
+                    </optgroup>
+                    
+                    <optgroup label="🍗 Non-Veg Dishes">
+                        <option value="Chicken Biryani">Chicken Biryani</option>
+                        <option value="Mutton Biryani">Mutton Biryani</option>
+                        <option value="Butter Chicken">Butter Chicken</option>
+                        <option value="Tandoori Chicken">Tandoori Chicken</option>
+                        <option value="Chicken Curry">Chicken Curry</option>
+                        <option value="Egg Curry">Egg Curry</option>
+                        <option value="Mutton Curry">Mutton Curry</option>
+                        <option value="Chicken Korma">Chicken Korma</option>
+                        <option value="Chicken 65">Chicken 65</option>
+                        <option value="Chicken Tikka Masala">Chicken Tikka Masala</option>
+                        <option value="Fish Curry">Fish Curry</option>
+                        <option value="Chicken Bhuna">Chicken Bhuna</option>
+                        <option value="Chicken Do Pyaza">Chicken Do Pyaza</option>
+                        <option value="Keema Pav">Keema Pav</option>
+                        <option value="Egg Bhurji">Egg Bhurji</option>
+                    </optgroup>
+                    
+                    <optgroup label="🍟 Fast Food / Snacks">
+                        <option value="Pav Bhaji">Pav Bhaji</option>
+                        <option value="Vada Pav">Vada Pav</option>
+                        <option value="Samosa">Samosa</option>
+                        <option value="Veg Burger">Veg Burger</option>
+                        <option value="Chicken Burger">Chicken Burger</option>
+                        <option value="Cheese Pizza">Cheese Pizza</option>
+                        <option value="Veg Pizza">Veg Pizza</option>
+                        <option value="Sandwich">Sandwich (Grilled, Masala, Club)</option>
+                        <option value="French Fries">French Fries</option>
+                        <option value="Aloo Tikki">Aloo Tikki</option>
+                        <option value="Bread Pakora">Bread Pakora</option>
+                        <option value="Kachori">Kachori</option>
+                        <option value="Spring Roll">Spring Roll</option>
+                        <option value="Frankie/Roll">Frankie/Roll</option>
+                        <option value="Maggi">Maggi</option>
+                    </optgroup>
+                    
+                    <optgroup label="🍜 Chinese / Indo-Chinese">
+                        <option value="Veg Hakka Noodles">Veg Hakka Noodles</option>
+                        <option value="Chicken Hakka Noodles">Chicken Hakka Noodles</option>
+                        <option value="Manchurian">Manchurian (Veg/Chicken)</option>
+                        <option value="Fried Rice">Fried Rice (Veg/Chicken)</option>
+                        <option value="Schezwan Rice">Schezwan Rice</option>
+                        <option value="Chowmein">Chowmein</option>
+                        <option value="Chilli Paneer">Chilli Paneer</option>
+                        <option value="Chilli Chicken">Chilli Chicken</option>
+                        <option value="Momos">Momos (Veg/Chicken/Tandoori)</option>
+                    </optgroup>
+                    
+                    <optgroup label="🍬 Indian Sweets">
+                        <option value="Gulab Jamun">Gulab Jamun</option>
+                        <option value="Rasgulla">Rasgulla</option>
+                        <option value="Jalebi">Jalebi</option>
+                        <option value="Rasmalai">Rasmalai</option>
+                        <option value="Kaju Katli">Kaju Katli</option>
+                        <option value="Soan Papdi">Soan Papdi</option>
+                        <option value="Barfi">Barfi</option>
+                        <option value="Motichoor Ladoo">Motichoor Ladoo</option>
+                        <option value="Besan Ladoo">Besan Ladoo</option>
+                        <option value="Rabri">Rabri</option>
+                        <option value="Gajar ka Halwa">Gajar ka Halwa</option>
+                        <option value="Suji Halwa">Suji Halwa</option>
+                        <option value="Malpua">Malpua</option>
+                        <option value="Imarti">Imarti</option>
+                        <option value="Cham Cham">Cham Cham</option>
+                        <option value="Kulfi">Kulfi</option>
+                        <option value="Phirni">Phirni</option>
+                    </optgroup>
+                    
+                    <optgroup label="🫓 South Indian">
+                        <option value="Masala Dosa">Masala Dosa</option>
+                        <option value="Idli Sambhar">Idli Sambhar</option>
+                        <option value="Medu Vada">Medu Vada</option>
+                        <option value="Uttapam">Uttapam</option>
+                        <option value="Upma">Upma</option>
+                        <option value="Pongal">Pongal</option>
+                        <option value="Lemon Rice">Lemon Rice</option>
+                        <option value="Coconut Chutney">Coconut Chutney</option>
+                    </optgroup>
+                    <optgroup label="🍽️ Thali / Combo Items">
+                        <option value="North Indian Thali">North Indian Thali</option>
+                        <option value="South Indian Thali">South Indian Thali</option>
+                        <option value="Veg Thali">Veg Thali</option>
+                        <option value="Non-Veg Thali">Non-Veg Thali</option>
+                        <option value="Dal Rice Combo">Dal Rice Combo</option>
+                        <option value="Roti Sabzi Combo">Roti Sabzi Combo</option>
+                        <option value="Biryani + Raita Combo">Biryani + Raita Combo</option>
+                    </optgroup>
+                    
+                    <optgroup label="🍹 Beverages">
+                        <option value="Lassi">Lassi</option>
+                        <option value="Cold Coffee">Cold Coffee</option>
+                        <option value="Chai">Chai (Masala Tea)</option>
+                        <option value="Nimbu Pani">Nimbu Pani</option>
+                        <option value="Buttermilk">Buttermilk (Chaas)</option>
+                        <option value="Fresh Juice">Fresh Juice</option>
+                        <option value="Soft Drinks">Soft Drinks (Coke, Pepsi)</option>
+                        <option value="Mocktails">Mocktails</option>
+                        <option value="Milkshake">Milkshake</option>
+                    </optgroup>
+                    
+                    <optgroup label="🔥 Street Specials">
+                        <option value="Golgappa / Pani Puri">Golgappa / Pani Puri</option>
+                        <option value="Dahi Puri">Dahi Puri</option>
+                        <option value="Aloo Chaat">Aloo Chaat</option>
+                        <option value="Chole Tikki">Chole Tikki</option>
+                        <option value="Bhalla Papdi">Bhalla Papdi</option>
+                        <option value="Sev Puri">Sev Puri</option>
+                        <option value="Bhel Puri">Bhel Puri</option>
+                        <option value="Ragda Pattice">Ragda Pattice</option>
+                    </optgroup>
+                </select>
+                <div class="error" id="zoomkartMenuError">Please select at least one menu item</div>
+            </div>
+            
+            <button type="submit" class="submit-btn">Submit Information</button>
+        </form>
+        
+        <div class="success-message" id="successMessage">
+            <h2>✅ Thank You!</h2>
+            <p>Thank you Sir! We'll call you soon. Be active – Team Rao Developers 〽️</p>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for the menu
+            $('#zoomkartMenu').select2({
+                placeholder: "Search and select menu items",
+                allowClear: true,
+                width: '100%'
+            });
+            
+            // Owner counter for dynamic fields
+            let ownerCounter = 1;
+            
+            // Add more owner fields
+            $('#addOwnerBtn').click(function() {
+                ownerCounter++;
+                const newOwnerHtml = `
+                    <div class="owner-group">
+                        <button type="button" class="remove-owner-btn" onclick="removeOwner(this)">×</button>
+                        <div class="form-group">
+                            <label for="ownerName${ownerCounter}" class="required">Zoomkart Owner Name</label>
+                            <input type="text" id="ownerName${ownerCounter}" placeholder="Enter owner's full name">
+                            <div class="error" id="ownerName${ownerCounter}Error">Please enter owner's name</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ownerMobile${ownerCounter}" class="required">Owner Mobile Number</label>
+                            <input type="text" id="ownerMobile${ownerCounter}" placeholder="Enter 10-digit mobile number" maxlength="10">
+                            <div class="error" id="ownerMobile${ownerCounter}Error">Please enter a valid 10-digit Indian mobile number</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ownerInstagram${ownerCounter}" class="required">Owner Instagram Handle</label>
+                            <input type="text" id="ownerInstagram${ownerCounter}" placeholder="Enter Instagram username without @">
+                            <div class="error" id="ownerInstagram${ownerCounter}Error">Please enter owner's Instagram username</div>
+                        </div>
+                    </div>
+                `;
+                $('#ownersSection').append(newOwnerHtml);
+            });
+            
+            // Form submission
+            $('#zoomkartForm').submit(function(e) {
+                e.preventDefault();
+                
+                // Reset errors
+                $('.error').hide();
+                
+                // Validate form
+                let isValid = true;
+                
+                // WhatsApp Number validation
+                const whatsappNumber = $('#whatsappNumber').val().trim();
+                if (!whatsappNumber || !/^[6789]\d{9}$/.test(whatsappNumber)) {
+                    $('#whatsappNumberError').show();
+                    isValid = false;
+                }
+                
+                // Delivery Time validation
+                const deliveryTime = $('#deliveryTime').val();
+                if (deliveryTime < 1 || deliveryTime > 100) {
+                    $('#deliveryTimeError').show();
+                    isValid = false;
+                }
+                
+                // Calling Number validation
+                const callingNumber = $('#callingNumber').val().trim();
+                if (!callingNumber || !/^[6789]\d{9}$/.test(callingNumber)) {
+                    $('#callingNumberError').show();
+                    isValid = false;
+                }
+                
+                // Facebook Handle validation (if provided)
+                const facebookHandle = $('#facebookHandle').val().trim();
+                if (facebookHandle && !/^(https?:\/\/)?(www\.)?facebook\.com\/.+/.test(facebookHandle)) {
+                    $('#facebookHandleError').show();
+                    isValid = false;
+                }
+                
+                // Instagram Username validation
+                const instagramUsername = $('#instagramUsername').val().trim();
+                if (!instagramUsername) {
+                    $('#instagramUsernameError').show();
+                    isValid = false;
+                }
+                
+                // Office Location validation
+                const officeLocation = $('#officeLocation').val().trim();
+                if (!officeLocation || !officeLocation.match(/\d{6}/)) {
+                    $('#officeLocationError').show();
+                    isValid = false;
+                }
+                
+                // Support Number validation
+                const supportNumber = $('#supportNumber').val().trim();
+                if (!supportNumber || !/^[6789]\d{9}$/.test(supportNumber)) {
+                    $('#supportNumberError').show();
+                    isValid = false;
+                }
+                
+                // Email validation (if provided)
+                const email = $('#email').val().trim();
+                if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    $('#emailError').show();
+                    isValid = false;
+                }
+                
+                // Validate all owners
+                for (let i = 1; i <= ownerCounter; i++) {
+                    const ownerName = $(`#ownerName${i}`).val().trim();
+                    const ownerMobile = $(`#ownerMobile${i}`).val().trim();
+                    const ownerInstagram = $(`#ownerInstagram${i}`).val().trim();
+                    
+                    if (!ownerName) {
+                        $(`#ownerName${i}Error`).show();
+                        isValid = false;
+                    }
+                    
+                    if (!ownerMobile || !/^[6789]\d{9}$/.test(ownerMobile)) {
+                        $(`#ownerMobile${i}Error`).show();
+                        isValid = false;
+                    }
+                    
+                    if (!ownerInstagram) {
+                        $(`#ownerInstagram${i}Error`).show();
+                        isValid = false;
+                    }
+                }
+                
+                // Menu validation
+                const selectedMenu = $('#zoomkartMenu').val();
+                if (!selectedMenu || selectedMenu.length === 0) {
+                    $('#zoomkartMenuError').show();
+                    isValid = false;
+                }
+                
+                if (!isValid) {
+                    return;
+                }
+                
+                // Prepare data for Telegram
+                let ownersInfo = '';
+                for (let i = 1; i <= ownerCounter; i++) {
+                    ownersInfo += `
+Owner ${i}:
+Name: ${$(`#ownerName${i}`).val().trim()}
+Mobile: ${$(`#ownerMobile${i}`).val().trim()}
+Instagram: ${$(`#ownerInstagram${i}`).val().trim()}
+`;
+                }
+                
+                const message = `
+📢 *New Zoomkart Registration* 📢
+
+📱 *WhatsApp Number*: ${whatsappNumber}
+⏱ *Delivery Time*: ${deliveryTime} minutes
+📞 *Calling Number*: ${callingNumber}
+📌 *Facebook*: ${facebookHandle || 'Not provided'}
+📌 *Instagram*: ${instagramUsername}
+📌 *Twitter*: ${$('#twitterHandle').val().trim() || 'Not provided'}
+🏢 *Office Location*:
+${officeLocation}
+📞 *Support Number*: ${supportNumber}
+📧 *Email*: ${email || 'Not provided'}
+
+👥 *Owners Information*:
+${ownersInfo}
+
+🍽 *Selected Menu Items*:
+${selectedMenu.join('\n• ')}
+
+_Submitted via Rao Developers Form_
+`;
+                
+                // Send to Telegram
+                const botToken = '8187433543:AAF4sxqnhCohX5WTl7c7CDSiuxfCMhH5_Yw';
+                const chatId = '5165964724';
+                const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+                
+                $.post(url, {
+                    chat_id: chatId,
+                    text: message,
+                    parse_mode: 'Markdown'
+                }, function() {
+                    // Show success message
+                    $('#zoomkartForm').hide();
+                    $('#successMessage').fadeIn();
+                }).fail(function() {
+                    alert('Failed to submit form. Please try again later.');
+                });
+            });
+        });
+        
+        // Remove owner function (needs to be global for dynamic buttons)
+        function removeOwner(button) {
+            $(button).parent().remove();
+        }
+    </script>
+</body>
+</html>

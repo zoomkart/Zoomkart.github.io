@@ -494,7 +494,7 @@
                         <li><a href="index.html">Home</a></li>
                         <li><a href="menu.html">Menu</a></li>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="#">Track Order</a></li>
+                        <li><a href="trace.html">Track Order</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -507,8 +507,8 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2023 Zoomkart. All Rights Reserved. Made with ❤️ in Ateli Mandi</p>
-                <p class="developer-credit">A Website By <a href="https://www.raodevelopers.xyz" target="_blank">Rao Developers</a></p>
+                <p>© 2025 Zoomkart. All Rights Reserved. Made with ❤️ in Ateli Mandi</p>
+                <p class="developer-credit">A Website By <a href="https://www.raodevlopers.xyz" target="_blank">Rao Developers</a></p>
             </div>
         </div>
     </footer>
@@ -638,6 +638,12 @@
                         total: totalAmount
                     };
                     
+                    // Store user data for payment page
+                    localStorage.setItem('userData', JSON.stringify({
+                        name: fullName,
+                        phone: mobile
+                    }));
+                    
                     // Store complete order data in localStorage
                     localStorage.setItem('currentOrder', JSON.stringify(orderData));
                     
@@ -648,7 +654,7 @@
                     if (paymentMethod === 'cod') {
                         window.location.href = 'done.html';
                     } else {
-                        window.location.href = 'pay.html';
+                        window.location.href = 'payment.html';
                     }
                 }
             });

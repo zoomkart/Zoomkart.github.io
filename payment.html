@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Payment | Zoomkart</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #ff6584;
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --white: #fff;
+            --black: #000;
+            --gray: #6c757d;
+            --light-gray: #f1f1f1;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+
+        .payment-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .order-summary {
+            flex: 1;
+            min-width: 300px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .payment-methods {
+            flex: 1;
+            min-width: 300px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            width: 120px;
+            color: var(--gray);
+        }
+
+        .info-value {
+            flex: 1;
+        }
+
+        .order-items {
+            margin: 20px 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .item-name {
+            flex: 2;
+        }
+
+        .item-qty {
+            flex: 1;
+            text-align: center;
+        }
+
+        .item-price {
+            flex: 1;
+            text-align: right;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid var(--light-gray);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .payment-method {
+            margin-bottom: 20px;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-option:hover {
+            border-color: var(--primary-color);
+        }
+
+        .payment-option.active {
+            border-color: var(--primary-color);
+            background-color: rgba(108, 99, 255, 0.05);
+        }
+
+        .payment-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--primary-color);
+        }
+
+        .payment-label {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .payment-form {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .payment-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-family: 'Poppins', sans-serif;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .secure-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .secure-note i {
+            color: var(--success-color);
+            margin-right: 5px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .close-modal:hover {
+            color: var(--dark-color);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .upi-apps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .upi-app {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .upi-app:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(108, 99, 255, 0.05);
+        }
+
+        .upi-app.active {
+            border-color: var(--primary-color);
+            background-color: rgba(108, 99, 255, 0.1);
+        }
+
+        .upi-app-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .upi-app-name {
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .error-message {
+            background-color: #ffeeee;
+            border: 1px solid #ffcccc;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            color: var(--danger-color);
+            display: none;
+        }
+
+        .close-error {
+            float: right;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .payment-container {
+                flex-direction: column;
+            }
+            
+            .order-summary, .payment-methods {
+                width: 100%;
+            }
+
+            .upi-apps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Zoomkart</div>
+            <h1 class="page-title">Confirm & Pay Securely</h1>
+        </div>
+
+        <div class="payment-container">
+            <!-- Order Summary Section -->
+            <div class="order-summary">
+                <h2 class="section-title">Order Summary</h2>
+                
+                <div class="user-info">
+                    <div class="info-row">
+                        <div class="info-label">Name:</div>
+                        <div class="info-value" id="userName">Loading...</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Mobile:</div>
+                        <div class="info-value" id="userMobile">Loading...</div>
+                    </div>
+                </div>
+                
+                <div class="order-items">
+                    <h3>Your Items</h3>
+                    <div id="orderItemsList">
+                        <!-- Items will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="order-total">
+                    <div>Total Amount:</div>
+                    <div id="orderTotal">₹0</div>
+                </div>
+            </div>
+
+            <!-- Payment Methods Section -->
+            <div class="payment-methods">
+                <h2 class="section-title">Payment Method</h2>
+                
+                <div class="error-message" id="errorMessage">
+                    <span class="close-error" id="closeError">&times;</span>
+                    <strong>Service Temporarily Unavailable</strong><br>
+                    Credit/Debit Card payments are currently offline. Please try UPI payment or call us at <strong>9499473347</strong> for any questions.
+                </div>
+                
+                <div class="payment-method">
+                    <div class="payment-option active" data-method="card">
+                        <i class="far fa-credit-card payment-icon"></i>
+                        <div class="payment-label">Credit/Debit Card</div>
+                    </div>
+                    
+                    <div class="payment-form active" id="cardForm">
+                        <div class="form-group">
+                            <label class="form-label">Card Number</label>
+                            <input type="text" class="form-control" placeholder="1234 5678 9012 3456" id="cardNumber">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Expiry Date</label>
+                                <input type="text" class="form-control" placeholder="MM/YY" id="cardExpiry">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CVV</label>
+                                <input type="text" class="form-control" placeholder="123" id="cardCvv">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Name on Card</label>
+                            <input type="text" class="form-control" placeholder="John Doe" id="cardName">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="payment-method">
+                    <div class="payment-option" data-method="upi">
+                        <i class="fas fa-mobile-alt payment-icon"></i>
+                        <div class="payment-label">UPI Payment</div>
+                    </div>
+                    
+                    <div class="payment-form" id="upiForm">
+                        <div class="form-group">
+                            <label class="form-label">UPI ID</label>
+                            <input type="text" class="form-control" placeholder="yourname@upi" id="upiId">
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn" id="payButton">Confirm & Pay</button>
+                
+                <div class="secure-note">
+                    <i class="fas fa-lock"></i> Your payment is secure and encrypted
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPI Apps Modal -->
+    <div class="modal" id="upiModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h3 class="modal-title">Select UPI App</h3>
+            <p>Please select your preferred UPI app to complete the payment:</p>
+            
+            <div class="upi-apps">
+                <div class="upi-app" data-app="phonepe">
+                    <i class="upi-app-icon fab fa-google-pay"></i>
+                    <span class="upi-app-name">Google Pay</span>
+                </div>
+                <div class="upi-app" data-app="googlepay">
+                    <i class="upi-app-icon fas fa-rupee-sign"></i>
+                    <span class="upi-app-name">PhonePe</span>
+                </div>
+                <div class="upi-app" data-app="paytm">
+                    <i class="upi-app-icon fas fa-wallet"></i>
+                    <span class="upi-app-name">Paytm</span>
+                </div>
+                <div class="upi-app" data-app="amazonpay">
+                    <i class="upi-app-icon fab fa-amazon"></i>
+                    <span class="upi-app-name">Amazon Pay</span>
+                </div>
+                <div class="upi-app" data-app="fampay">
+                    <i class="upi-app-icon fas fa-mobile-alt"></i>
+                    <span class="upi-app-name">FamPay</span>
+                </div>
+                <div class="upi-app" data-app="bharatpe">
+                    <i class="upi-app-icon fas fa-qrcode"></i>
+                    <span class="upi-app-name">BharatPe</span>
+                </div>
+            </div>
+            
+            <button class="btn" id="proceedToPay">Proceed to Pay</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get user data from localStorage (set in buy.html)
+            const userData = JSON.parse(localStorage.getItem('userData')) || {};
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Display user info from buy.html form
+            document.getElementById('userName').textContent = userData.name || 'Guest User';
+            document.getElementById('userMobile').textContent = userData.phone || 'Not provided';
+            
+            // Display order items
+            const orderItemsList = document.getElementById('orderItemsList');
+            let totalAmount = 0;
+            
+            if (cart.length === 0) {
+                orderItemsList.innerHTML = '<p>No items in cart</p>';
+            } else {
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    totalAmount += itemTotal;
+                    
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'order-item';
+                    itemElement.innerHTML = `
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-qty">${item.quantity}x</div>
+                        <div class="item-price">₹${itemTotal}</div>
+                    `;
+                    orderItemsList.appendChild(itemElement);
+                });
+            }
+            
+            // Display total amount
+            document.getElementById('orderTotal').textContent = `₹${totalAmount}`;
+            
+            // Payment method selection
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            const paymentForms = document.querySelectorAll('.payment-form');
+            
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    paymentOptions.forEach(opt => opt.classList.remove('active'));
+                    paymentForms.forEach(form => form.classList.remove('active'));
+                    
+                    // Add active class to selected option
+                    this.classList.add('active');
+                    const method = this.getAttribute('data-method');
+                    document.getElementById(`${method}Form`).classList.add('active');
+                });
+            });
+            
+            // Error message handling
+            const errorMessage = document.getElementById('errorMessage');
+            const closeError = document.getElementById('closeError');
+            
+            closeError.addEventListener('click', function() {
+                errorMessage.style.display = 'none';
+            });
+            
+            // UPI Modal elements
+            const upiModal = document.getElementById('upiModal');
+            const closeModal = document.getElementById('closeModal');
+            const upiApps = document.querySelectorAll('.upi-app');
+            const proceedToPay = document.getElementById('proceedToPay');
+            let selectedApp = null;
+            
+            // Handle UPI app selection
+            upiApps.forEach(app => {
+                app.addEventListener('click', function() {
+                    upiApps.forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedApp = this.getAttribute('data-app');
+                });
+            });
+            
+            // Close modal
+            closeModal.addEventListener('click', function() {
+                upiModal.style.display = 'none';
+            });
+            
+            // Proceed to UPI payment
+            proceedToPay.addEventListener('click', function() {
+                if (!selectedApp) {
+                    alert('Please select a UPI app');
+                    return;
+                }
+                
+// Create UPI payment link
+const upiLink = `upi://pay?pa=harshitvedi11@ibl&pn=Mr.%20HARSHIT%20%20.&mc=0000&mode=02&purpose=00&am=${totalAmount}&cu=INR`;
+                
+                // Redirect to UPI app
+                window.location.href = upiLink;
+                
+                // Also send to Telegram (in case UPI app doesn't open)
+                sendToTelegram();
+            });
+            
+            // Payment button click
+            document.getElementById('payButton').addEventListener('click', function() {
+       const activeMethod = document.querySelector('.payment-option.active').getAttribute('data-method');
+                
+                if (activeMethod === 'card') {
+                    // Show error for card payments
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                else if (activeMethod === 'upi') {
+                    // Show UPI apps modal
+                    upiModal.style.display = 'flex';
+                }
+                else if (activeMethod === 'wallet') {
+                    const walletType = document.getElementById('walletType').value;
+                    if (!walletType) {
+                        alert('Please select a wallet');
+                        return;
+                    }
+                    // Process wallet payment
+                    processPayment();
+                }
+            });
+            
+            // Send order details to Telegram
+            function sendToTelegram() {
+                const userName = document.getElementById('userName').textContent;
+                const userMobile = document.getElementById('userMobile').textContent;
+                
+                // Prepare items list
+                let itemsList = '';
+                cart.forEach(item => {
+                    itemsList += `- ${item.name} (${item.quantity}x) - ₹${item.price * item.quantity}\n`;
+                });
+                
+                // Telegram bot API
+                const botToken = '7570580492:AAEhq5Oz1mfD7SMIalPFoz8ccOwJGbwigHU';
+                const chatId = '5165964724';
+                
+                const message = `🛍️ NEW PAYMENT RECEIVED on Zoomkart ✅\n\n👤 Name: ${userName}\n📱 Mobile: ${userMobile}\n🛒 Items: \n${itemsList}\n💰 Total Amount: ₹${totalAmount}\n\n📦 Proceed to dispatch order.`;
+                
+                // Encode message for URL
+                const encodedMessage = encodeURIComponent(message);
+                
+                // Send to Telegram bot
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodedMessage}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Redirect to success page
+                        window.location.href = 'done.html';
+                    })
+                    .catch(error => {
+                        console.error('Error sending to Telegram:', error);
+                        // Still redirect even if Telegram fails
+                        window.location.href = 'done.html';
+                    });
+            }
+            
+            function processPayment() {
+                // For wallet payments (though not implemented fully as per requirements)
+                sendToTelegram();
+            }
+        });
+    </script>
+</body>
+</html>

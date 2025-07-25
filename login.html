@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Zoomkart</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #ff6584;
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        #googleLoginBtn {
+            background: white;
+            color: var(--dark-color);
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #googleLoginBtn:hover {
+            background: #f5f5f5;
+        }
+
+        #statusMsg {
+            margin: 15px 0;
+            min-height: 20px;
+            font-size: 0.9rem;
+        }
+
+        .success {
+            color: var(--success-color);
+        }
+
+        .error {
+            color: var(--danger-color);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider-text {
+            padding: 0 10px;
+            color: var(--dark-color);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Zoomkart Login</h2>
+        
+        <!-- Phone Login Section -->
+        <form id="phoneForm">
+            <input type="tel" id="phoneNumber" placeholder="+91XXXXXXXXXX" required />
+            <div id="recaptcha-container"></div>
+            <button type="submit">Send OTP</button>
+        </form>
+
+        <!-- OTP Form -->
+        <form id="otpForm" style="display: none;">
+            <input type="text" id="otpCode" placeholder="Enter OTP" required />
+            <button type="submit">Verify OTP</button>
+        </form>
+
+        <div class="divider">
+            <span class="divider-text">OR</span>
+        </div>
+
+        <!-- Google Login Section -->
+        <button id="googleLoginBtn">
+            <img src="https://i.ibb.co/84r9qV27/1200px-Google-G-logo-svg.png" width="20" alt="Google logo">
+            Sign in with Google
+        </button>
+
+        <p id="statusMsg"></p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+        import {
+            getAuth,
+            RecaptchaVerifier,
+            signInWithPhoneNumber,
+            GoogleAuthProvider,
+            signInWithPopup
+        } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCsg0DYsro6kJONJfHqMXBGvzNkPPe5Uew",
+            authDomain: "zoomkart-32be7.firebaseapp.com",
+            projectId: "zoomkart-32be7",
+            storageBucket: "zoomkart-32be7.appspot.com",
+            messagingSenderId: "1002368073050",
+            appId: "1:1002368073050:web:b047c4824395da0d29c763"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Initialize reCAPTCHA
+        window.recaptchaVerifier = new RecaptchaVerifier(
+            "recaptcha-container",
+            {
+                size: "invisible",
+                callback: (response) => {
+                    console.log("reCAPTCHA verified");
+                }
+            },
+            auth
+        );
+
+        const phoneForm = document.getElementById("phoneForm");
+        const otpForm = document.getElementById("otpForm");
+        const statusMsg = document.getElementById("statusMsg");
+        let confirmationResult;
+
+        // Phone number submission
+        phoneForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            statusMsg.textContent = "Sending OTP...";
+            statusMsg.className = "";
+
+            try {
+                confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier);
+                statusMsg.textContent = "OTP sent successfully!";
+                statusMsg.className = "success";
+                phoneForm.style.display = "none";
+                otpForm.style.display = "block";
+            } catch (error) {
+                statusMsg.textContent = "Error: " + error.message;
+                statusMsg.className = "error";
+                console.error("OTP send error:", error);
+            }
+        });
+
+        // OTP verification
+        otpForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const otpCode = document.getElementById("otpCode").value;
+            statusMsg.textContent = "Verifying OTP...";
+            statusMsg.className = "";
+
+            try {
+                const result = await confirmationResult.confirm(otpCode);
+                statusMsg.textContent = "Login successful! Redirecting...";
+                statusMsg.className = "success";
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1000);
+            } catch (error) {
+                statusMsg.textContent = "Invalid OTP. Please try again.";
+                statusMsg.className = "error";
+                console.error("OTP verification error:", error);
+            }
+        });
+
+        // Google login
+        document.getElementById("googleLoginBtn").addEventListener("click", async () => {
+            statusMsg.textContent = "Signing in with Google...";
+            statusMsg.className = "";
+            
+            try {
+                const provider = new GoogleAuthProvider();
+                const result = await signInWithPopup(auth, provider);
+                statusMsg.textContent = "Google login successful! Redirecting...";
+                statusMsg.className = "success";
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1000);
+            } catch (error) {
+                statusMsg.textContent = "Google login failed: " + error.message;
+                statusMsg.className = "error";
+                console.error("Google sign-in error:", error);
+            }
+        });
+    </script>
+</body>
+</html>
